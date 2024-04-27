@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Course</title>
+</head>
+<body>
+    <h1>Search Course</h1>
+    <form method="GET" action="{% url 'search_courses' %}">
+        <input type="text" name="search" placeholder="Search by course code, name, or instructor">
+        <button type="submit">Search</button>
+    </form>
+    {% if search %}
+        <h2>Search Course for "{{ search }}"</h2>
+        {% if courses %}
+            <ul>
+                {% for course in courses %}
+                    <li>{{ course.code }} - {{ course.name }} (Instructor: {{ course.instructor }})</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No courses found.</p>
+        {% endif %}
+    {% endif %}
+</body>
+</html>
