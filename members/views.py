@@ -5,6 +5,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login as auth_login
 from .models import Courses
+from django.shortcuts import render, redirect
+from .models import Course, StudentSchedule
 
 
 def members(request):
@@ -53,3 +55,18 @@ def SearchCourse (request):
 def course_detail(request, course_id):
     course = get_object_or_404(Courses, id=course_id)
     return render(request, 'course_details.html', {'course': course})
+
+def course_list(request):
+    courses = Course.objects.all()
+    return render(request, 'course_registration/course_list.html', {'courses': courses})
+
+def add_course(request, course_id):
+    course = Course.objects.get(id=course_id)
+    # Add your logic here to check prerequisites and schedule clashes
+    schedule = StudentSchedule.objects.create(student_name="John Doe")
+    schedule.courses.add(course)
+    return redirect('course_list')
+
+def view_schedule(request):
+    schedule = StudentSchedule.objects.filter(student_name="John Doe").first()
+    return render(request, 'course_registration/schedule.html', {'schedule': schedule})
