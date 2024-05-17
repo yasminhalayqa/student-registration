@@ -10,6 +10,7 @@ class Courses(models.Model):
     instructor = models.CharField(max_length=100)
     capacity = models.IntegerField()
     schedule = models.ForeignKey('courseSchedule' , on_delete=models.CASCADE , related_name='schedule')
+    
 
 class courseSchedule (models.Model):
     days = models.CharField(max_length=100)

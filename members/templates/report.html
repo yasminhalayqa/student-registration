@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Course Enrollment Report</h1>
+  <h2>Enrollment Data</h2>
+  <ul>
+    {% for data in enrollment_data %}
+      <li>{{ data.courseId__name }}: {{ data.total }} students</li>
+    {% endfor %}
+  </ul>
+  
+  <h2>Most Popular Courses</h2>
+  <ul>
+    {% for course in popular_courses %}
+      <li>{{ course.name }}: {{ course.enrollment_count }} students</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

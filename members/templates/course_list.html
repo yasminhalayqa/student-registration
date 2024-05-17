@@ -10,7 +10,11 @@
         {% for course in courses %}
             <li>{{ course.name }} <a href="{% url 'add_course' course.id %}">Add</a></li>
         {% endfor %}
+        <li><a href="{% url 'course_detail' course.id %}">{{ course.name }}</a></li>
+        {% endfor %}
     </ul>
     <a href="{% url 'view_schedule' %}">View Schedule</a>
+    
+
 </body>
 </html>

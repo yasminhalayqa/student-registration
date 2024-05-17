@@ -1,0 +1,10 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>My Schedule</h1>
+  <ul>
+    {% for registration in registrations %}
+      <li>{{ registration.courseId.name }} (Registered on {{ registration.registered_on }})</li>
+    {% endfor %}
+  </ul>
+{% endblock %}

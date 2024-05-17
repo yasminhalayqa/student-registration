@@ -16,5 +16,19 @@
         <p>No courses scheduled yet.</p>
     {% endif %}
     <a href="{% url 'course_list' %}">Back to Course List</a>
+    <table>
+        <tr>
+            <th>Day</th>
+            <th>Time</th>
+            <th>Course</th>
+        </tr>
+        {% for entry in schedule %}
+        <tr>
+            <td>{{ entry.day }}</td>
+            <td>{{ entry.time }}</td>
+            <td>{{ entry.course.title }}</td>
+        </tr>
+        {% endfor %}
+    </table>
 </body>
 </html>
