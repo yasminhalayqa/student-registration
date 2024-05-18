@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>My Course Schedule</title>
+</head>
+
+<body>
+    <h1>My Course Schedule</h1>
+    {% if courses %}
+    <table>
+        <thead>
+            <tr>
+                <th>Course Code</th>
+                <th>Course Name</th>
+                <th>Instructor</th>
+                <th>Schedule</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+            <tr>
+                <td>{{ course.code }}</td>
+                <td>{{ course.name }}</td>
+                <td>{{ course.instructor }}</td>
+                <td>{{ course.schedule.days }} {{ course.schedule.startTime }} - {{ course.schedule.endTime }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No courses registered.</p>
+    {% endif %}
+</body>
+
+</html>

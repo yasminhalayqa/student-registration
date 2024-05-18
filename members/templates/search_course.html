@@ -1,26 +1,47 @@
+<!-- search_course.html -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Search Course</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Courses</title>
 </head>
+
 <body>
-    <h1>Search Course</h1>
+    <h1>Search Courses</h1>
+
     <form method="GET" action="{% url 'search_courses' %}">
-        <input type="text" name="search" placeholder="Search by course code, name, or instructor">
+        <input type="text" name="search" placeholder="Search...">
         <button type="submit">Search</button>
     </form>
-    {% if search %}
-        <h2>Search Course for "{{ search }}"</h2>
-        {% if courses %}
-            <ul>
-                {% for course in courses %}
-                    <li>{{ course.code }} - {{ course.name }} (Instructor: {{ course.instructor }})</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No courses found.</p>
-        {% endif %}
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
     {% endif %}
+    <table>
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Instructor</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+            <tr>
+                <td>{{ course.code }}</td>
+                <td>{{ course.name }}</td>
+                <td>{{ course.instructor }}</td>
+                <td><a href="{% url 'course_details' course.id %}">View Details</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
+
 </html>

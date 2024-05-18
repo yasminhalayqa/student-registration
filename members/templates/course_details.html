@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Course Details</title>
 </head>
+
 <body>
     <h1>Course Details</h1>
     <p><strong>Course Name:</strong> {{ course.name }}</p>
@@ -11,5 +13,19 @@
     <p><strong>Prerequisites:</strong> {{ course.prerequisites }}</p>
     <p><strong>Schedule:</strong> {{ course.schedule }}</p>
     <p><strong>Available Spots:</strong> {{ course.capacity }}</p>
+
+    <form method="post" action="{% url 'add_course' course.id %}">
+        {% csrf_token %}
+        <input type="submit" value="Add Course to Schedule">
+
+    </form>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 </body>
+
 </html>
