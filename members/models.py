@@ -17,6 +17,7 @@ class Courses(models.Model):
     capacity = models.IntegerField()
     schedule = models.ForeignKey(courseSchedule, on_delete=models.CASCADE, related_name='courses')
     students_enrolled = models.PositiveBigIntegerField(default=0)
+    registration_deadline = models.TimeField(null=True)
 
 
 
@@ -38,4 +39,6 @@ class Students(models.Model):
 class studentsRegs(models.Model):
     studentId = models.ForeignKey(Students, on_delete=models.CASCADE, related_name='registrations')
     courseId = models.ForeignKey(Courses, on_delete=models.CASCADE, related_name='registrations')
+
+
 

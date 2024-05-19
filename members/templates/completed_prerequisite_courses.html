@@ -1,9 +1,10 @@
+<!-- courses_with_prerequisites.html -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>My Course Schedule</title>
+    <title>Courses with Prerequisites</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
@@ -34,17 +35,15 @@
             </ul>
         </div>
     </nav>
-
-    <h1>My Course Schedule</h1>
-    {% if courses %}
-
+    <h1>Courses with Completed Prerequisites</h1>
     <table class="table">
         <thead class="thead-light">
             <tr>
                 <th scope="col">Course Code</th>
                 <th scope="col">Course Name</th>
+                <th scope="col">Description</th>
                 <th scope="col">Instructor</th>
-                <th scope="col">Schedule</th>
+                <th scope="col">Capacity</th>
             </tr>
         </thead>
         <tbody>
@@ -52,15 +51,15 @@
             <tr>
                 <th scope="row">{{course.code}}</th>
                 <th scope="row">{{course.name}}</th>
+                <th scope="row">{{course.description}}</th>
                 <th scope="row">{{course.instructor}}</th>
-                <td>{{ course.schedule.days }} {{ course.schedule.startTime }} - {{ course.schedule.endTime }}</td>
+                <th scope="row">{{course.capacity}}</th>
+
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    {% else %}
-    <p>No courses registered.</p>
-    {% endif %}
+
 </body>
 
 </html>

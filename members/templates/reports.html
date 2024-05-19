@@ -1,9 +1,10 @@
+<!-- report.html -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>My Course Schedule</title>
+    <title>Course Reports</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
@@ -28,39 +29,31 @@
 
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'completed_prerequisite_courses' %}">Completed Prerequisite
-                        Courses</a>
+                    <a class="nav-link" href="{% url 'completed_prerequisite_courses' %}">Completed Prerequisite Courses</a>
                 </li>
             </ul>
         </div>
     </nav>
-
-    <h1>My Course Schedule</h1>
-    {% if courses %}
-
+    <h1>Course Enrollment Report</h1>
     <table class="table">
         <thead class="thead-light">
             <tr>
                 <th scope="col">Course Code</th>
                 <th scope="col">Course Name</th>
-                <th scope="col">Instructor</th>
-                <th scope="col">Schedule</th>
+                <th scope="col">Enrollment Count</th>
             </tr>
         </thead>
         <tbody>
-            {% for course in courses %}
+            {% for course in course_enrollment %}
             <tr>
                 <th scope="row">{{course.code}}</th>
                 <th scope="row">{{course.name}}</th>
-                <th scope="row">{{course.instructor}}</th>
-                <td>{{ course.schedule.days }} {{ course.schedule.startTime }} - {{ course.schedule.endTime }}</td>
+                <th scope="row">{{course.students_enrolled}}</th>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    {% else %}
-    <p>No courses registered.</p>
-    {% endif %}
+
 </body>
 
 </html>

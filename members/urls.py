@@ -9,7 +9,8 @@ urlpatterns = [
     path('course/<int:course_id>/', views.course_detail, name='course_details'),
     path('add_course/<int:course_id>/', views.RegisterCourse, name='add_course'),
     path('view_schedule/', views.ViewSchedule, name='view_schedule'),
-
+    path('generate_report/', views.GenetateReport, name='generate_report'),
+    path('completed_prerequisite_courses/', views.CompletedPrerequisiteCourses, name='completed_prerequisite_courses'),
 
 
 ]

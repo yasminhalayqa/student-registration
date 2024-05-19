@@ -9,6 +9,7 @@ from .models import Students
 from .models import studentsRegs
 from django.db import models
 from django.contrib import messages
+from datetime import datetime
 
 
 def members(request):
@@ -82,25 +83,34 @@ def RegisterCourse(request, course_id):
     student =get_object_or_404(Students, id=student_id)
     course = get_object_or_404(Courses, id= course_id)
 
+    registration_deadline = course.registration_deadline  
+    days_until_deadline = (registration_deadline - datetime.now()).days
+
+    if 0 < days_until_deadline <= 3:
+        messages.warning(request, "Registration deadline for this course is approaching!")
+
+        
     if studentsRegs.objects.filter(studentId=student, courseId=course).exists():
         messages.error(request, "you already register in this course")
-        return redirect('search_courses')
+        return redirect('course_details', course_id=course_id)
     
 
     missing_prerequisites = course.prerequisites.exclude(id__in=student.courses.all())
     if missing_prerequisites.exists():
         messages.error(request, 'You do not meet the prerequisites for this course.')
-        return redirect('course_detail', course_id=course_id)
+        return redirect('course_details', course_id=course_id)
     
 
     if course.students_enrolled >= course.capacity:
         messages.error(request, 'this course is full')
-        return redirect('search_courses')
+        return redirect('course_details', course_id=course_id)
     
     for student_course in student.courses.all():
-        if student_course.schedule == course.schedule:
-            messages.error(request, 'this course conflict with your schedule')
-            return redirect('search_courses')
+        if student_course.schedule.days == course.schedule.days and \
+           student_course.schedule.startTime < course.schedule.endTime and \
+           course.schedule.startTime < student_course.schedule.endTime:
+            messages.error(request, 'This course conflicts with your schedule.')
+            return redirect('course_details', course_id=course_id)
     
 
     studentsRegs.objects.create(studentId=student, courseId=course)
@@ -120,3 +130,28 @@ def ViewSchedule(request):
     courses = student.courses.all()
 
     return render(request, 'schedule.html', {'courses': courses})
+
+
+
+def GenetateReport(request):
+    course_enrollment = Courses.objects.values('name','code', 'students_enrolled')
+    return render(request, 'reports.html', {'course_enrollment': course_enrollment})
+
+
+
+def CompletedPrerequisiteCourses(request):
+    student_id = request.session.get('student_id')
+
+    student = Students.objects.get(pk=student_id)
+    enrolled_courses = student.courses.all()
+
+    completed_prerequisite_courses = []
+
+    for course in Courses.objects.all():
+        if set(course.prerequisites.all()).issubset(enrolled_courses):
+            completed_prerequisite_courses.append(course)
+
+    return render(request, 'completed_prerequisite_courses.html', {'courses': completed_prerequisite_courses})
+        
+
+
