@@ -1,85 +1,39 @@
-<!-- search_course.html -->
-<!DOCTYPE html>
-<html lang="en">
+{% extends "master.html" %}
+{% block title %}
+Courses
+{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <title>Search Courses</title>
-</head>
+{% block content %}
+<form method="GET" action="{% url 'search_courses' %}" class="m-4">
+    <input type="text" name="search" placeholder="Search...">
+    <button type="submit">Search</button>
+</form>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand">Student Registration</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'search_courses' %}">Courses</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'view_schedule' %}">My Schedule</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'generate_report' %}">Reports</a>
-
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'completed_prerequisite_courses' %}">Completed Prerequisite
-                        Courses</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Notifications
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        {% for message in messages %}
-                        <a class="dropdown-item" href="#">{{ message }}</a>
-                        {% endfor %}
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <!-- <h1>Search Courses</h1> -->
-    <form method="GET" action="{% url 'search_courses' %}" class="m-4">
-        <input type="text" name="search" placeholder="Search...">
-        <button type="submit">Search</button>
-    </form>
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li>{{ message }}</li>
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Code</th>
+            <th scope="col">Course Name</th>
+            <th scope="col">Instructor</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for course in courses %}
+        <tr>
+            <th scope="row">{{course.code}}</th>
+            <th scope="row">{{course.name}}</th>
+            <th scope="row">{{course.instructor}}</th>
+            <th scope="row"><a href="{% url 'course_details' course.id %}">View Details</a></th>
+        </tr>
         {% endfor %}
-    </ul>
-    {% endif %}
-
-    <table class="table">
-        <thead class="thead-light">
-            <tr>
-                <th scope="col">Code</th>
-                <th scope="col">Course Name</th>
-                <th scope="col">Instructor</th>
-                <th scope="col">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for course in courses %}
-            <tr>
-                <th scope="row">{{course.code}}</th>
-                <th scope="row">{{course.name}}</th>
-                <th scope="row">{{course.instructor}}</th>
-                <th scope="row"><a href="{% url 'course_details' course.id %}">View Details</a></th>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-</body>
-
-</html>
+    </tbody>
+</table>
+{% endblock %}

@@ -1,65 +1,31 @@
-<!-- courses_with_prerequisites.html -->
-<!DOCTYPE html>
-<html lang="en">
+{% extends "master.html" %}
+{% block title %}
+Courses with Completed Prerequisites
+{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Courses with Prerequisites</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+{% block content %}
+<h1>Courses with Completed Prerequisites</h1>
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">Course Code</th>
+            <th scope="col">Course Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Instructor</th>
+            <th scope="col">Capacity</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for course in courses %}
+        <tr>
+            <th scope="row">{{course.code}}</th>
+            <th scope="row">{{course.name}}</th>
+            <th scope="row">{{course.description}}</th>
+            <th scope="row">{{course.instructor}}</th>
+            <th scope="row">{{course.capacity}}</th>
 
-</head>
-
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand">Student Registration</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'search_courses' %}">Courses</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'view_schedule' %}">My Schedule</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'generate_report' %}">Reports</a>
-
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'completed_prerequisite_courses' %}">Completed Prerequisite
-                        Courses</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <h1>Courses with Completed Prerequisites</h1>
-    <table class="table">
-        <thead class="thead-light">
-            <tr>
-                <th scope="col">Course Code</th>
-                <th scope="col">Course Name</th>
-                <th scope="col">Description</th>
-                <th scope="col">Instructor</th>
-                <th scope="col">Capacity</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for course in courses %}
-            <tr>
-                <th scope="row">{{course.code}}</th>
-                <th scope="row">{{course.name}}</th>
-                <th scope="row">{{course.description}}</th>
-                <th scope="row">{{course.instructor}}</th>
-                <th scope="row">{{course.capacity}}</th>
-
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-</body>
-
-</html>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

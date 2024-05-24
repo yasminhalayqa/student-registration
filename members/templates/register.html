@@ -1,18 +1,16 @@
-<!-- register.html -->
+
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <title>Register</title>
+    <meta charset="UTF-8">
+    <title>User Registration</title>
 </head>
-
 <body>
-    <h2>Register</h2>
+    <h1>User Registration</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Register</button>
     </form>
 </body>
-
 </html>

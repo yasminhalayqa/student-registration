@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth.models import User
 
 class courseSchedule(models.Model):
     days = models.CharField(max_length=100)
@@ -17,28 +17,21 @@ class Courses(models.Model):
     capacity = models.IntegerField()
     schedule = models.ForeignKey(courseSchedule, on_delete=models.CASCADE, related_name='courses')
     students_enrolled = models.PositiveBigIntegerField(default=0)
-    registration_deadline = models.TimeField(null=True)
+    registration_deadline = models.DateTimeField(null=True)
+
 
 
 
 class Students(models.Model):
     name = models.CharField(max_length=100)
-    password = models.CharField(max_length=100)
-    email = models.EmailField(unique=True)
     courses = models.ManyToManyField(Courses, through='studentsRegs')
-
-    def set_password(self, raw_password):
-        self.password = make_password(raw_password)
-        self.save()
-
-    def check_password(self, raw_password):
-        return check_password(raw_password, self.password)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
 
 
 
 class studentsRegs(models.Model):
-    studentId = models.ForeignKey(Students, on_delete=models.CASCADE, related_name='registrations')
-    courseId = models.ForeignKey(Courses, on_delete=models.CASCADE, related_name='registrations')
+    course = models.ForeignKey(Courses, on_delete=models.CASCADE ,related_name='registrations')
+    student = models.ForeignKey(Students, on_delete=models.CASCADE, related_name='registrations') 
 
 
 

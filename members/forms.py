@@ -1,29 +1,21 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from .models import Students
-from django.contrib.auth.hashers import check_password
 
-class StudentRegistrationForm(forms.ModelForm):
-    class Meta:
-        model=Students
-        fields = ["name", "email", "password"]
-        widgets = {
-            'password' : forms.PasswordInput
-        }
-
-class StudentLoginForm(forms.Form):
+class StudentRegistrationForm(UserCreationForm):
     email = forms.EmailField()
-    password = forms.CharField(widget=forms.PasswordInput)
 
-    def clean(self):
-        cleaned_data = super().clean()
-        email = cleaned_data.get('email')
-        password = cleaned_data.get('password')
-        
-        if email and password:
-            try:
-                student = Students.objects.get(email=email)
-                if not check_password(password, student.password):
-                    raise forms.ValidationError("Invalid email or password")
-            except Students.DoesNotExist:
-                raise forms.ValidationError("Invalid email or password")
-        return cleaned_data
+    class Meta:
+        model = User
+        fields = ["username", "email", "password1", "password2"]
+
+    def save(self, commit=True):
+        user = super(StudentRegistrationForm, self).save(commit=False)
+        user.email = self.cleaned_data['email']
+        if commit:
+            user.save()
+
+            Students.objects.create(user=user)
+
+        return user
