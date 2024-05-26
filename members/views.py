@@ -137,11 +137,6 @@ def RegisterCourse(request, course_id):
     course.save()
 
 
-
-    courses_reg = request.session.get('courses_reg', [])
-    courses_reg.append(course_id)
-    request.session['courses_reg'] = courses_reg
-
     messages.success(request, 'You have been enrolled in this course.')
     return redirect('search_courses')
 
@@ -189,5 +184,9 @@ def CompletedPrerequisiteCourses(request):
 
     return render(request, 'completed_prerequisite_courses.html', {'courses': completed_prerequisite_courses})
         
+def user_logout(request):
 
+    if request.user:
+        logout(request)
+    return redirect('login')
 

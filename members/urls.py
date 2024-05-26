@@ -11,6 +11,8 @@ urlpatterns = [
     path('view_schedule/', views.ViewSchedule, name='view_schedule'),
     path('generate_report/', views.GenetateReport, name='generate_report'),
     path('completed_prerequisite_courses/', views.CompletedPrerequisiteCourses, name='completed_prerequisite_courses'),
+    path('logout/', views.user_logout, name='logout'),
+
 
 
 ]
